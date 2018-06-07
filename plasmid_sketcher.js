@@ -1439,17 +1439,23 @@ angular.module("angularplasmid.services", [])
 angular.module('psk', [])
     .controller('plasmidController', function() {
     var labelList = this;
-    var currVAdjust = 130;
+    var currVAdjust = 60;
     labelList.labels = [
-        {text:'learn AngularJS', vadjust:90},
-        {text:'build an AngularJS app', vadjust:110}];
+        {text:'', vadjust:0},
+        {text:'My Biobrick', vadjust:0},
+        {text:'in pBR322', vadjust:30}];
     
     labelList.addLabel = function() {
         labelList.labels.push({text:labelList.labelText, vadjust:currVAdjust});
         labelList.labelText = '';
-        currVAdjust += 20;
+        currVAdjust += 30;
     };
-    
+    labelList.removeLastLabel = function() {
+        if(labelList.labels.length == 1)
+            return;
+        labelList.labels.pop();
+        currVAdjust -= 30;
+    };
     });
          
         

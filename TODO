@@ -1,0 +1,9 @@
+TODO list
+
+- Fix the multiple draw when updating node problem
+
+
+DONE !
+
+- Fix the bug that removes all content when there is no label left
+
