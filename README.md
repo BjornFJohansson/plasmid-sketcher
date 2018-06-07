@@ -1,22 +1,36 @@
-AngularPlasmid
+Plasmid sketcher
 ==============
 
-Biological Plasmid Visualization Component using AngularJS
+Plasmid visual map editor based on AngularPlasmid 
 
-AngularPlasmid is a DNA plasmid visualization component developed using Google's AngularJS 
-framework.  The project provides a set of Angular directives to allow for a declarative way 
-to contruct a plasmid graph.
+A tool to interactively create illustrative plasmid, with no connection to actual sequences. Useful to show possible plasmids layout.
 
-Rather than coding client-side Javascript or other server-side programming languages, AngularPlasmid provides
-easy-to-use HTML markup, making plasmid generation as easy as creating a web page.  In fact, you don't really neeed to know anything
-about AngularJS or Javascript to use the components, as one of the download options bundles everything together for you.  
 
-For complete details on this project, refer to http://angularplasmid.vixis.com.
+Licence
 
-License
 
-The MIT License (MIT)
+Copyright (c) 2018 Eliane Briand
 
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+This project incorporates work covered by the following copyright and permission notice :
+
+
+Copyright (c) 2010-2018 Google, Inc. http://angularjs.org
 Copyright (c) 2014 Rehan Chawdry <rchawdry@vixis.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:

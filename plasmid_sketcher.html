@@ -1,0 +1,182 @@
+<!DOCTYPE html ng-app="psk">
+<html>
+
+<!--
+
+    Copyright (c) 2018 Eliane Briand
+
+    This file is part of Plasmid Sketcher.
+
+    Plasmid sketcher is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    This project incorporates work covered by the following copyright and permission notice :
+
+    The MIT License (MIT)
+
+    Copyright (c) 2010-2018 Google, Inc. http://angularjs.org
+    Copyright (c) 2014 Rehan Chawdry <rchawdry@vixis.com>
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
+
+    <head>
+        <script src="angular.js"></script>
+        <script src='plasmid_sketcher.js'></script>
+        <script src='plasmid_sketcher.js'></script>
+        <style>
+            #p1 {border:1px solid #ccc}
+        </style>
+    </head>
+    <body>
+        <link rel="stylesheet" href="ps.css">
+        <center>
+        <form ng-submit="labelList.addLabel()">
+        <input type="text" ng-model="labelList.labelText"  size="30"
+               placeholder="add new label here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
+        <div ng-controllr="plasmidController as pc">
+                </div>
+
+        <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
+            <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
+            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240">
+                <tracklabel text="MTX" class="titlelabel"></tracklabel>
+                <tracklabel text="in pBR322"  class="titlelabel" vadjust="30"></tracklabel>
+                <tracklabel text="v2.0"  class="subtitlelabel" vadjust="60"></tracklabel>
+                
+                <!-- draw the region boundaries lines for each marker -->
+                <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="35"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="350" end="820" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35">
+                <markerlabel type="path" text="pBR322" class="smlabel red" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="490" end="550" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                    <markerlabel type="path" text="Rop" class="vsmlabel white" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+                
+             <trackmarker start="600" end="630" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                    <markerlabel type="path" text="Ori" class="vsmlabel white" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="650" end="780" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                    <markerlabel type="path" text="AmpR" class="vsmlabel white" vadjust="5"></markerlabel>
+                </trackmarker>
+            
+                <!-- draw the region boundaries lines for each marker -->
+                <trackmarker start="820" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="EcoRI (pBR22)" vadjust="35"></markerlabel>
+                </trackmarker>
+
+                
+                <trackmarker start="960" end="985" markerstyle='stroke:#000;fill:#ff0;' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0">
+                    <markerlabel text="araO (pBAD)" vadjust="40" hadjust="-8" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                </trackmarker>
+                
+                 <trackmarker start="955" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="856" end="950" markerstyle='stroke:#000;fill:#9da140;'  wadjust="0" vadjust="0">
+                      <markerlabel type="path" class="mdlabel white" text="folC" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+
+                
+                <trackmarker start="850" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
+                </trackmarker>
+                 <trackmarker start="852" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                </trackmarker>
+
+                
+                <trackmarker start="995" end="35" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35"></trackmarker>
+                
+                                <!-- draw the region boundaries lines for each marker -->
+                <trackmarker start="995" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="XhoI" vadjust="25"></markerlabel>
+                </trackmarker>
+                <trackmarker start="35" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="Acc65I" vadjust="25"></markerlabel>
+                </trackmarker>
+
+                
+                
+                
+                <trackmarker start="5" end="30" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
+                    <markerlabel text="lacO (pL)" vadjust="40" hadjust="0" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="45" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
+                </trackmarker>
+                
+                
+                <trackmarker start="50" end="150" markerstyle='stroke:#000;fill:#7f63b8;'  wadjust="0" vadjust="0">
+                      <markerlabel type="path" class="mdlabel white" text="cpg2" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+                
+                <trackmarker start="155" end="198" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35"></trackmarker>
+                
+                                <!-- draw the region boundaries lines for each marker -->
+                <trackmarker start="155" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="AvrII" vadjust="25"></markerlabel>
+                </trackmarker>
+                <trackmarker start="198" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
+                    <markerlabel class="vsmlabel red" text="NheI" vadjust="30"></markerlabel>
+                </trackmarker>
+
+                <trackmarker start="164" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
+                </trackmarker>
+                 <trackmarker start="166" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                </trackmarker>
+                
+                <trackmarker start="170" end="195" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
+                    <markerlabel text="tetO" vadjust="40" hadjust="2" valign="outer" class="smlabel gold" showline="1" linevadjust="-15" linevadjust="-15" lineclass="labelline"></markerlabel>
+                </trackmarker>
+                
+                
+                <trackmarker start="205" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="210" end="290" markerstyle='stroke:#000;fill:#b84c7d;'  wadjust="0" vadjust="0">
+                      <markerlabel type="path" class="mdlabel white" text="abgT" vadjust="5"></markerlabel>
+                </trackmarker>
+                
+                <trackmarker start="293" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
+                </trackmarker>
+                 <trackmarker start="295" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                </trackmarker>
+
+            </plasmidtrack>
+        </plasmid>
+        </center>
+    </body>
+</html>

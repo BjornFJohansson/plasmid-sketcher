@@ -1,3 +1,2 @@
-bower_components/
-node_modules/
-dist/plasmid_browserify.js
+*.kate-swp
+
