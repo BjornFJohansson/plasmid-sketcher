@@ -1439,64 +1439,23 @@ angular.module("angularplasmid.services", [])
 angular.module('psk', [])
     .controller('plasmidController', function() {
     var labelList = this;
+    var currVAdjust = 130;
     labelList.labels = [
-        {text:'learn AngularJS', done:true},
-        {text:'build an AngularJS app', done:false}];
+        {text:'learn AngularJS', vadjust:90},
+        {text:'build an AngularJS app', vadjust:110}];
     
-    labelList.addTodo = function() {
-        labelList.labels.push({text:labelList.labelText, done:false});
+    labelList.addLabel = function() {
+        labelList.labels.push({text:labelList.labelText, vadjust:currVAdjust});
         labelList.labelText = '';
+        currVAdjust += 20;
     };
     
-    todoList.remaining = function() {
-        var count = 0;
-        angular.forEach(todoList.todos, function(todo) {
-        count += todo.done ? 0 : 1;
-        });
-        return count;
-    };
-    
-    todoList.archive = function() {
-        var oldTodos = todoList.todos;
-        todoList.todos = [];
-        angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) todoList.todos.push(todo);
-        });
-    };
     });
          
-         
-angular.module('psk', [])
-    .controller('plasmidController', function() {
-    var labelList = this;
-    labelList.labels = [
-        {text:'learn AngularJS', done:true},
-        {text:'build an AngularJS app', done:false}];
-    
-    labelList.addTodo = function() {
-        labelList.labels.push({text:labelList.labelText, done:false});
-        labelList.labelText = '';
-    };
-    
-    todoList.remaining = function() {
-        var count = 0;
-        angular.forEach(todoList.todos, function(todo) {
-        count += todo.done ? 0 : 1;
-        });
-        return count;
-    };
-    
-    todoList.archive = function() {
-        var oldTodos = todoList.todos;
-        todoList.todos = [];
-        angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) todoList.todos.push(todo);
-        });
-    };
-    });
+        
          
          
          
 angular.element(document).ready(function () {
-        angular.bootstrap(document, ['app']);
+        angular.bootstrap(document, ['app','psk']);
 });

@@ -1,6 +1,6 @@
-<!DOCTYPE html ng-app="psk">
+<!DOCTYPE html>
 <html>
-
+<meta charset="UTF-8"> 
 <!--
 
     Copyright (c) 2018 Eliane Briand
@@ -26,7 +26,6 @@
 
     The MIT License (MIT)
 
-    Copyright (c) 2010-2018 Google, Inc. http://angularjs.org
     Copyright (c) 2014 Rehan Chawdry <rchawdry@vixis.com>
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -41,29 +40,29 @@
     <head>
         <script src="angular.js"></script>
         <script src='plasmid_sketcher.js'></script>
-        <script src='plasmid_sketcher.js'></script>
-        <style>
-            #p1 {border:1px solid #ccc}
-        </style>
     </head>
     <body>
         <link rel="stylesheet" href="ps.css">
         <center>
-        <form ng-submit="labelList.addLabel()">
-        <input type="text" ng-model="labelList.labelText"  size="30"
-               placeholder="add new label here">
-        <input class="btn-primary" type="submit" value="add">
-      </form>
-        <div ng-controllr="plasmidController as pc">
+        
+        <div ng-controller="plasmidController as labelList">
+        
+            <form ng-submit="labelList.addLabel()">
+                <input type="text" ng-model="labelList.labelText"  size="30"
+                placeholder="add new label here">
+                <input class="btn-primary" type="submit" value="add">
+            </form>
+                <div >
                 </div>
 
         <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
             <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
-            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240">
+            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240" ng-repeat="label in labelList.labels">
                 <tracklabel text="MTX" class="titlelabel"></tracklabel>
                 <tracklabel text="in pBR322"  class="titlelabel" vadjust="30"></tracklabel>
                 <tracklabel text="v2.0"  class="subtitlelabel" vadjust="60"></tracklabel>
-                
+                <tracklabel text="{{label.text}}"  class="subtitlelabel" vadjust="{{label.vadjust}}"></tracklabel>
+
                 <!-- draw the region boundaries lines for each marker -->
                 <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
                     <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="35"></markerlabel>
@@ -177,6 +176,8 @@
 
             </plasmidtrack>
         </plasmid>
+        
+                </div>
         </center>
     </body>
 </html>
