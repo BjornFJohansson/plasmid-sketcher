@@ -40,29 +40,30 @@
     <head>
         <script src="angular.js"></script>
         <script src='plasmid_sketcher.js'></script>
+        
     </head>
     <body>
         <link rel="stylesheet" href="ps.css">
         <center>
         
-        <div ng-controller="plasmidController as labelList">
+        <div ng-controller="plasmidController as labelList" class="container">
 
-
+        <div class="plasmidview">
         <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
             <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="240" ng-repeat="label in labelList.labels"> <!--  dummy plasmid track for ng repeat -->
                 <tracklabel text="{{label.text}}"  class="titlelabel" vadjust="{{label.vadjust}}"></tracklabel>
             </plasmidtrack>
-            
+
             <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
             <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240">
 
 
                 <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="35"></markerlabel>
+                <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="65"></markerlabel>
                 </trackmarker>
                 
-                <trackmarker start="350" end="820" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35">
+                <trackmarker start="350" end="820" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75">
                 <markerlabel type="path" text="pBR322" class="smlabel red" vadjust="5"></markerlabel>
                 </trackmarker>
                 
@@ -80,8 +81,8 @@
                 </trackmarker>
             
                 <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="820" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="EcoRI (pBR22)" vadjust="35"></markerlabel>
+                <trackmarker start="820" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="EcoRI (pBR22)" vadjust="65"></markerlabel>
                 </trackmarker>
 
                 
@@ -106,14 +107,14 @@
                 </trackmarker>
 
                 
-                <trackmarker start="995" end="35" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35"></trackmarker>
+                <trackmarker start="995" end="35" markerstyle="fill:#ba583b1f" wadjust="-12" vadjust="75"></trackmarker>
                 
                                 <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="995" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="XhoI" vadjust="25"></markerlabel>
+                <trackmarker start="995" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="XhoI" vadjust="65"></markerlabel>
                 </trackmarker>
-                <trackmarker start="35" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="Acc65I" vadjust="25"></markerlabel>
+                <trackmarker start="35" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="Acc65I" vadjust="65"></markerlabel>
                 </trackmarker>
 
                 
@@ -133,14 +134,14 @@
                 </trackmarker>
                 
                 
-                <trackmarker start="155" end="198" markerstyle="fill:#ba583b1f" wadjust="-10" vadjust="35"></trackmarker>
+                <trackmarker start="155" end="198" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75"></trackmarker>
                 
                                 <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="155" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="AvrII" vadjust="25"></markerlabel>
+                <trackmarker start="155" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="AvrII" vadjust="65"></markerlabel>
                 </trackmarker>
-                <trackmarker start="198" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
-                    <markerlabel class="vsmlabel red" text="NheI" vadjust="30"></markerlabel>
+                <trackmarker start="198" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                    <markerlabel class="vsmlabel red" text="NheI" vadjust="65"></markerlabel>
                 </trackmarker>
 
                 <trackmarker start="164" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
@@ -170,8 +171,8 @@
 
             </plasmidtrack>
         </plasmid>
-        
-        
+        </div>
+        <div class="plasmidedit">
             <form ng-submit="labelList.addLabel()">
                 <input type="text" ng-model="labelList.labelText"  size="30"
                 placeholder="add new plasmid label here">
@@ -181,6 +182,7 @@
             <form ng-submit="labelList.removeLastLabel()">
                 <input class="btn-primary" type="submit" value="remove last label">
             </form>
+        </div>
             
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
         </center>

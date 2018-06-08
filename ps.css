@@ -58,3 +58,19 @@ body {font-family: Sans;font-weight:400; background-color: white;}
 .subtitlelabel{
     font-size:25px;
 }
+
+.container {
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.plasmidview {
+  flex-grow: 2;
+}
+
+.plasmidedit {
+  flex-grow: 1;
+}
