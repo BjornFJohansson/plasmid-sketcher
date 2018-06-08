@@ -49,9 +49,13 @@
 
 
         <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
-            <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
-            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240" ng-repeat="label in labelList.labels">
+            <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="240" ng-repeat="label in labelList.labels"> <!--  dummy plasmid track for ng repeat -->
                 <tracklabel text="{{label.text}}"  class="titlelabel" vadjust="{{label.vadjust}}"></tracklabel>
+            </plasmidtrack>
+            
+            <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
+            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240">
+
 
                 <!-- draw the region boundaries lines for each marker -->
                 <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="20">
