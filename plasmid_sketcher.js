@@ -1438,11 +1438,15 @@ angular.module("angularplasmid.services", [])
          
          
 angular.module('psk', ['ngMaterial'])
-    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav) {
+    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil) {
     var pc = this;
     var currVAdjust = 60;
     var currMarkerId = 2;
     var originatorEv;
+    
+    pc.colorUtil = $mdColorUtil;
+    pc.mdcolors = $mdColors;
+    pc.colors = Object.keys($mdColorPalette);
     
     pc.labels = [
         {text:'', vadjust:0, type:'titlelabel'},
@@ -1454,8 +1458,38 @@ angular.module('psk', ['ngMaterial'])
     ]
         
     pc.markers = [
-        {id: 0,text:'Dummy', type : 'Restriction site', position:1000, remark : "Cutting site"},
-        {id : 1, text:'Dummy 2', type : 'Restriction site', position: 500, remark : "QC of PCR"}
+        {id: 0,
+            text:'Dummy',
+            type : 'Restriction site',
+            position:1000,
+            remark : "Cutting site",
+            length : 0,
+            spec_attr : {}
+        },
+        {id : 1,
+            text:'pBR322',
+            type : 'Restriction pair',
+            position: 350,
+            remark : "Plasmid backbone",
+            length : 470,
+            spec_attr : {border1 : "EagI", border2 : "EcoRI", fillcolor : "#ba583b1f"}
+        },
+        {id : 2,
+            text:' ',
+            type : 'Restriction pair',
+            position: 155,
+            remark : "Operon maker",
+            length : 43,
+            spec_attr : {border1 : "AvrII", border2 : "NheI", fillcolor : "#ba583b1f"}
+        },
+        {id : 3,
+            text:' ',
+            type : 'Restriction pair',
+            position: 995,
+            remark : "Promoter switcher",
+            length : 40,
+            spec_attr : {border1 : "XhoI", border2 : "Acc65I", fillcolor : "#ba583b1f"}
+        }
     ];
     
         
@@ -1477,7 +1511,7 @@ angular.module('psk', ['ngMaterial'])
     };
     
     pc.addMarker = function() {
-        pc.markers.push({id: currMarkerId, text: pc.markerText, type:pc.selectedMarkerType, position : 1000});
+        pc.markers.push({id: currMarkerId, text: pc.markerText, type:pc.selectedMarkerType, position : 1000, length : 0});
         pc.markerText = '';
         currMarkerId += 1;
     };
@@ -1503,16 +1537,61 @@ angular.module('psk', ['ngMaterial'])
     
     
     pc.globalMenuAction = function(name, ev) {
-      $mdDialog.show($mdDialog.alert()
-        .title(name)
-        .textContent('You triggered the "' + name + '" action')
-        .ok('Great')
-        .targetEvent(ev)
-      );
+      if(name == "new")
+      {
+          var confirm = $mdDialog.confirm()
+          .title('Delete existing work ?')
+          .textContent('Creating a new plasmid will erase all work on the current plasmid.')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('Delete plasmid & create new')
+          .cancel('Keep current plasmid');
+
+        $mdDialog.show(confirm).then(function() {
+        pc.markers = [
+        {id: 0,
+            text:'New feature',
+            type : 'Restriction site',
+            position:0,
+            remark : "Cutting site",
+            length : 0,
+            spec_attr : {}
+        }];
+        }, function() {});
+          
+        }
     };
     
+    pc.currMarkerEdited = pc.markers[0];
     
+    $scope.selectedMarker = 0;
+    pc.selectedMarkerIdx = 0;
+    pc.selectMarker = function (index) {
+    if ($scope.selectedMarker === null) {
+      $scope.selectedMarker = index;
+      pc.currMarkerEdited = pc.markers[pc.selectedMarkerIdx];
+    }
+    else {
+      $scope.selectedMarker = index;
+      pc.selectedMarkerIdx = index;
+      pc.currMarkerEdited = pc.markers[pc.selectedMarkerIdx];
+    }
+  }
+
+    pc.toggleAdvSidenav = function(){
+       $mdSidenav('advSideNav')
+          .toggle();
+    };
+           
+    pc.isAdvSideNavOpen = function(){
+      return $mdSidenav('advSideNav').isOpen();
+    };
     
+    pc.closeAdvSidenav = function () {
+      // Component lookup should always be available since we are not using `ng-if`
+      $mdSidenav('advSideNav').close()
+       
+    };
 })
 
     .config(['$mdIconProvider', function($mdIconProvider) {
@@ -1535,6 +1614,15 @@ angular.module('psk', ['ngMaterial'])
 				.iconSet('toggle', 'iconsets/toggle-icons.svg', 24)
 		}])
 
+    .config(function($mdThemingProvider) {
+
+    // Configure a dark theme with primary foreground yellow
+
+    $mdThemingProvider.theme('docs-dark', 'default')
+      .primaryPalette('purple')
+      .dark();
+
+  })
 
 .directive('onlyNumbers', function () {
     return  {
