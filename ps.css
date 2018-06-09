@@ -34,7 +34,7 @@
 
  */
 
-/* @import url("http://fonts.googleapis.com/css?family=Lato:300,400,700|Donegal+One|Source+Code+Pro:400"); */
+ @import url("http://fonts.googleapis.com/css?family=Lato:300,400,700|Donegal+One|Source+Code+Pro:400");
 body {font-family: Sans;font-weight:400; background-color: white;}
 .boundary {stroke-dasharray:2,2;stroke-width:2px}
 .mdlabel {font-size:25px}
@@ -52,25 +52,66 @@ body {font-family: Sans;font-weight:400; background-color: white;}
 
 .titlelabel{
     font-size:30px;
-    font-weight:400;
+    font-weight: bold;
 }
 
 .subtitlelabel{
     font-size:25px;
+    font-weight: normal;
 }
 
-.container {
+.flcontainer {
   display: flex; /* or inline-flex */
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top : 0px;
   align-items: center;
 }
 
 .plasmidview {
-  flex-grow: 2;
 }
 
 .plasmidedit {
+   display : flex;
+   
   flex-grow: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.plasmidLabelEditor{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top : 5%;
+    margin-bottom : 5%;
+    flex-grow: 1;
+    flex-shrink : 1;
+    flex-basis: auto;
+}
+
+.plasmidMarkerAdder{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top : 5%;
+    margin-bottom : 5%;
+    flex-grow: 1;
+    flex-shrink : 1;
+    flex-basis: auto;
+}
+
+.plasmidMarkerList {
+    margin-left: 2%;
+    margin-right: 2%;
+    flex-grow: 1;
+    flex-basis: 40%;
+}
+
+.plasmidMarkerEditor {
+    margin-left: 2%;
+    margin-right: 2%;
+    flex-grow: 1;
+    flex-basis: auto;
 }

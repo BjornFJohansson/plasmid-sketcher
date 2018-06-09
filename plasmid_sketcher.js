@@ -797,6 +797,7 @@ angular.module("angularplasmid.services", [])
                                 $event: e,
                                 $label: labelController
                             });
+                            
                         });
 
                         // Watch for changes to label
@@ -1436,32 +1437,139 @@ angular.module("angularplasmid.services", [])
 
          
          
-angular.module('psk', [])
-    .controller('plasmidController', function() {
-    var labelList = this;
+angular.module('psk', ['ngMaterial'])
+    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav) {
+    var pc = this;
     var currVAdjust = 60;
-    labelList.labels = [
-        {text:'', vadjust:0},
-        {text:'My Biobrick', vadjust:0},
-        {text:'in pBR322', vadjust:30}];
+    var currMarkerId = 2;
+    var originatorEv;
     
-    labelList.addLabel = function() {
-        labelList.labels.push({text:labelList.labelText, vadjust:currVAdjust});
-        labelList.labelText = '';
+    pc.labels = [
+        {text:'', vadjust:0, type:'titlelabel'},
+        {text:'My Biobrick', vadjust:0,type:'titlelabel'},
+        {text:'in pBR322', vadjust:30, type:'subtitlelabel'}];
+
+    pc.markerTypes =[
+        {id:0, text:'Restriction'}
+    ]
+        
+    pc.markers = [
+        {id: 0,text:'Dummy', type : 'Restriction site', position:1000, remark : "Cutting site"},
+        {id : 1, text:'Dummy 2', type : 'Restriction site', position: 500, remark : "QC of PCR"}
+    ];
+    
+        
+    pc.addLabel = function() {
+        var labelTypeVar = 'titlelabel';
+        if(pc.labelType == true)
+            labelTypeVar = 'subtitlelabel';
+        
+        pc.labels.push({text:pc.labelText, vadjust:currVAdjust, type:labelTypeVar});
+        pc.labelText = '';
+        pc.labelType = false;
         currVAdjust += 30;
     };
-    labelList.removeLastLabel = function() {
-        if(labelList.labels.length == 1)
+    pc.removeLastLabel = function() {
+        if(pc.labels.length == 1)
             return;
-        labelList.labels.pop();
+        pc.labels.pop();
         currVAdjust -= 30;
     };
-    });
-         
-        
+    
+    pc.addMarker = function() {
+        pc.markers.push({id: currMarkerId, text: pc.markerText, type:pc.selectedMarkerType, position : 1000});
+        pc.markerText = '';
+        currMarkerId += 1;
+    };
+    
+    
+    pc.openMenu = function($mdMenu, ev) {
+      originatorEv = ev;
+      $mdMenu.open(ev);
+    };
+    
+    pc.addMarkerDialog = function() {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .targetEvent(originatorEv)
+          .clickOutsideToClose(true)
+          .parent('body')
+          .title('Suddenly, a new feature')
+          .textContent('You just added a feature ! Awesome !')
+          .ok('That was easy')
+      );
+      
+    };
+    
+    
+    pc.globalMenuAction = function(name, ev) {
+      $mdDialog.show($mdDialog.alert()
+        .title(name)
+        .textContent('You triggered the "' + name + '" action')
+        .ok('Great')
+        .targetEvent(ev)
+      );
+    };
+    
+    
+    
+})
+
+    .config(['$mdIconProvider', function($mdIconProvider) {
+			$mdIconProvider
+				.iconSet('action', 'iconsets/action-icons.svg', 24)
+				.iconSet('alert', 'iconsets/alert-icons.svg', 24)
+				.iconSet('av', 'iconsets/av-icons.svg', 24)
+				.iconSet('communication', 'iconsets/communication-icons.svg', 24)
+				.iconSet('content', 'iconsets/content-icons.svg', 24)
+				.iconSet('device', 'iconsets/device-icons.svg', 24)
+				.iconSet('editor', 'iconsets/editor-icons.svg', 24)
+				.iconSet('file', 'iconsets/file-icons.svg', 24)
+				.iconSet('hardware', 'iconsets/hardware-icons.svg', 24)
+				.iconSet('icons', 'iconsets/icons-icons.svg', 24)
+				.iconSet('image', 'iconsets/image-icons.svg', 24)
+				.iconSet('maps', 'iconsets/maps-icons.svg', 24)
+				.iconSet('navigation', 'iconsets/navigation-icons.svg', 24)
+				.iconSet('notification', 'iconsets/notification-icons.svg', 24)
+				.iconSet('social', 'iconsets/social-icons.svg', 24)
+				.iconSet('toggle', 'iconsets/toggle-icons.svg', 24)
+		}])
+
+
+.directive('onlyNumbers', function () {
+    return  {
+        restrict: 'A',
+        link: function (scope, elm, attrs, ctrl) {
+            elm.on('keydown', function (event) {
+                if(event.shiftKey){event.preventDefault(); return false;}
+                //console.log(event.which);
+                if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
+                    // backspace, enter, escape, arrows
+                    return true;
+                } else if (event.which >= 48 && event.which <= 57) {
+                    // numbers 0 to 9
+                    return true;
+                } else if (event.which >= 96 && event.which <= 105) {
+                    // numpad number
+                    return true;
+                } 
+                // else if ([110, 190].indexOf(event.which) > -1) {
+                //     // dot and numpad dot
+                //     return true;
+                // }
+                else {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        }
+    }
+});
+              
          
          
          
 angular.element(document).ready(function () {
-        angular.bootstrap(document, ['app','psk']);
-});
+        angular.bootstrap(document, ['app','psk','ngMaterial', 'ngMessages']);
+})
+

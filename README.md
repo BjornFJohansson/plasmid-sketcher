@@ -30,11 +30,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+This project incorporates material design icons, copyright (c) 2010-2018 Google, Inc and released under the Creative Common 4.0 Attribution licence.
+
 
 This project incorporates work covered by the following copyright and permission notice :
 
 
 Copyright (c) 2010-2018 Google, Inc. http://angularjs.org
+
 Copyright (c) 2014 Rehan Chawdry <rchawdry@vixis.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:

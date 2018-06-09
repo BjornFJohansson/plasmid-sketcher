@@ -38,153 +38,333 @@
 
 
     <head>
+    
+        <link rel="stylesheet" href="ps.css">
+
         <script src="angular.js"></script>
         <script src='plasmid_sketcher.js'></script>
         
-    </head>
-    <body>
-        <link rel="stylesheet" href="ps.css">
-        <center>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- Angular Material stuff -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+    
         
-        <div ng-controller="plasmidController as labelList" class="container">
+    
 
-        <div class="plasmidview">
-        <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
-            <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="240" ng-repeat="label in labelList.labels"> <!--  dummy plasmid track for ng repeat -->
-                <tracklabel text="{{label.text}}"  class="titlelabel" vadjust="{{label.vadjust}}"></tracklabel>
-            </plasmidtrack>
+  
+  
+    </head>
+    <body  ng-controller="plasmidController as pc">
+        
+         <md-toolbar class="md-menu-toolbar">
+    <div layout="row">
+      <md-toolbar-filler layout layout-align="center center">
+        <md-icon md-svg-icon="device:data_usage" style="color: white;"></md-icon>
+      </md-toolbar-filler>
+      <div>
+        <h2 class="md-toolbar-tools">Plasmid Sketcher</h2>
+        <md-menu-bar>
+          <md-menu>
+            <button ng-click="$mdMenu.open()">
+              File
+            </button>
+            <md-menu-content>
+              <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('new', $event)">
+                  New
+                </md-button>
+              </md-menu-item>
+              <md-menu-divider></md-menu-divider>
+              
+            </md-menu-content>
+          </md-menu>
+        </md-menu-bar>
+      </div>
+    </div>
+  </md-toolbar>
+        <div ng-cloak class="flcontainer">
 
-            <plasmidtrack trackstyle="fill:#ccc" width="5" radius="260"></plasmidtrack>
-            <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="240">
+        
+        
+        
+            <div class="plasmidview">
+                <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
+                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220" ng-repeat="label in pc.labels"> <!--  dummy plasmid track for ng repeat label -->
+                        <tracklabel text="{{label.text}}"  class="{{label.type}}" vadjust="{{label.vadjust}}"></tracklabel>
+                    </plasmidtrack>
+                    
+                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220" ng-repeat="marker in pc.markers"> <!--  dummy plasmid track for ng repeat marker -->
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="{{marker.text}}" vadjust="65"></markerlabel>
+                        </trackmarker>
+                    </plasmidtrack>
+                    
+                    
+                    <plasmidtrack trackstyle="fill:#ccc" width="5" radius="240"></plasmidtrack>
+                    <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="220">
 
 
-                <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="65"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="350" end="820" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75">
-                <markerlabel type="path" text="pBR322" class="smlabel red" vadjust="5"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="490" end="550" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                    <markerlabel type="path" text="Rop" class="vsmlabel white" vadjust="5"></markerlabel>
-                </trackmarker>
-                
-                
-             <trackmarker start="600" end="630" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                    <markerlabel type="path" text="Ori" class="vsmlabel white" vadjust="5"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="650" end="780" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                    <markerlabel type="path" text="AmpR" class="vsmlabel white" vadjust="5"></markerlabel>
-                </trackmarker>
+                        <!-- draw the region boundaries lines for each marker -->
+                        <trackmarker start="350" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="EagI (pBR22)" vadjust="65"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="350" end="820" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75">
+                        <markerlabel type="path" text="pBR322" class="smlabel red" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="490" end="550" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" text="Rop" class="vsmlabel white" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                    <trackmarker start="600" end="630" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" text="Ori" class="vsmlabel white" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="650" end="780" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" text="AmpR" class="vsmlabel white" vadjust="5"></markerlabel>
+                        </trackmarker>
+                    
+                        <!-- draw the region boundaries lines for each marker -->
+                        <trackmarker start="820" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="EcoRI (pBR22)" vadjust="65"></markerlabel>
+                        </trackmarker>
+
+                        
+                        <trackmarker start="960" end="985" markerstyle='stroke:#000;fill:#ff0;' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0">
+                            <markerlabel text="araO (pBAD)" vadjust="40" hadjust="-8" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="955" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="856" end="950" markerstyle='stroke:#000;fill:#9da140;'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" class="mdlabel white" text="folC" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+
+                        
+                        <trackmarker start="850" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="852" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                        </trackmarker>
+
+                        
+                        <trackmarker start="995" end="35" markerstyle="fill:#ba583b1f" wadjust="-12" vadjust="75"></trackmarker>
+                        
+                                        <!-- draw the region boundaries lines for each marker -->
+                        <trackmarker start="995" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="XhoI" vadjust="65"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="35" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="Acc65I" vadjust="65"></markerlabel>
+                        </trackmarker>
+
+                        
+                        
+                        
+                        <trackmarker start="5" end="30" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
+                            <markerlabel text="lacO (pL)" vadjust="40" hadjust="0" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="45" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="50" end="150" markerstyle='stroke:#000;fill:#7f63b8;'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" class="mdlabel white" text="cpg2" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="155" end="198" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75"></trackmarker>
+                        
+                                        <!-- draw the region boundaries lines for each marker -->
+                        <trackmarker start="155" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="AvrII" vadjust="65"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="198" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
+                            <markerlabel class="vsmlabel red" text="NheI" vadjust="65"></markerlabel>
+                        </trackmarker>
+
+                        <trackmarker start="164" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="166" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                        </trackmarker>
+                        
+                        <trackmarker start="170" end="195" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
+                            <markerlabel text="tetO" vadjust="40" hadjust="2" valign="outer" class="smlabel gold" showline="1" linevadjust="-15" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="205" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
+                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="210" end="290" markerstyle='stroke:#000;fill:#b84c7d;'  wadjust="0" vadjust="0">
+                            <markerlabel type="path" class="mdlabel white" text="abgT" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="293" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
+                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="295" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
+                        </trackmarker>
+
+                    </plasmidtrack>
+                </plasmid>
+            </div> <!-- plasmid view -->
+            <div class="plasmidedit">
             
-                <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="820" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="EcoRI (pBR22)" vadjust="65"></markerlabel>
-                </trackmarker>
+                <div class="plasmidMarkerList">
+                  <md-toolbar class="md-theme-light" >
+                  <div class="md-toolbar-tools">
+                    <h2>
+                    <span>Features</span>
+                    </h2>
+                    
+                    <md-menu>
+      <md-button aria-label="Create new feature" class="md-icon-button" ng-click="pc.openMenu($mdMenu, $event)">
+        <md-icon md-menu-origin md-svg-icon="content:add" style="color: white;"></md-icon>
+      </md-button>
+      <md-menu-content width="4">
+        <md-menu-item>
+          <md-button ng-click="pc.addMarkerDialog()">
+            <md-icon md-svg-icon="content:create" md-menu-align-target style="color: black;"></md-icon>
+            Create new feature
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+                    </div>
+                </md-toolbar>
 
                 
-                <trackmarker start="960" end="985" markerstyle='stroke:#000;fill:#ff0;' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0">
-                    <markerlabel text="araO (pBAD)" vadjust="40" hadjust="-8" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
-                </trackmarker>
-                
-                 <trackmarker start="955" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="856" end="950" markerstyle='stroke:#000;fill:#9da140;'  wadjust="0" vadjust="0">
-                      <markerlabel type="path" class="mdlabel white" text="folC" vadjust="5"></markerlabel>
-                </trackmarker>
-                
+                <md-content>
+                   <section>
+                <md-subheader class="md-primary">Restriction sites</md-subheader>
+                    <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="marker in pc.markers">
+                        <div class="md-list-item-text">
+                        <h3>{{marker.text}}</h3>
+                        <h4>{{marker.type}}</h4>
+                        <p>{{marker.remark}}</p>
+                        </div>
+                        <md-button class="md-secondary">Edit</md-button>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-list-item>
+                    </md-list>
+                    </section>
+                </md-content>
+                        <!--
+                      <tabset id="markerTabSet">
+                            <tab ng-repeat="marker in pc.markers" heading="{{marker.text}}">
+                                Type :  {{marker.type}}
+                                <p>
+                            
+                                <rzslider rz-slider-options="vm.posSlider.options" rz-slider-model="marker.position"  ></rzslider><input only-numbers type="number" min="0" max="1000" ng-model="marker.position"></input>
+                                </p>
+                            </tab>
+                        </tabset> 
+                        -->
+                </div>
+                <div class="plasmidMarkerEditor">
+                <md-toolbar class="md-theme-light" >
+                  <div class="md-toolbar-tools">
+                    <h2>
+                    <span>Properties</span>
+                    </h2>
+                                        </div>
+                </md-toolbar>
+                    <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+                        <div>
+                        <md-input-container>
+                            <label>Title</label>
+                            <input ng-model="user.title">
+                        </md-input-container>
 
-                
-                <trackmarker start="850" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
-                </trackmarker>
-                 <trackmarker start="852" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                </trackmarker>
+                        <md-input-container>
+                            <label>Email</label>
+                            <input ng-model="user.email" type="email">
+                        </md-input-container>
+                        </div>
+                    </md-content>
 
-                
-                <trackmarker start="995" end="35" markerstyle="fill:#ba583b1f" wadjust="-12" vadjust="75"></trackmarker>
-                
-                                <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="995" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="XhoI" vadjust="65"></markerlabel>
-                </trackmarker>
-                <trackmarker start="35" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="Acc65I" vadjust="65"></markerlabel>
-                </trackmarker>
+                    <md-content layout-padding>
+                        <div>
+                        <form name="userForm">
 
-                
-                
-                
-                <trackmarker start="5" end="30" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
-                    <markerlabel text="lacO (pL)" vadjust="40" hadjust="0" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="45" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
-                </trackmarker>
-                
-                
-                <trackmarker start="50" end="150" markerstyle='stroke:#000;fill:#7f63b8;'  wadjust="0" vadjust="0">
-                      <markerlabel type="path" class="mdlabel white" text="cpg2" vadjust="5"></markerlabel>
-                </trackmarker>
-                
-                
-                <trackmarker start="155" end="198" markerstyle="fill:#ba583b1f"  wadjust="-12" vadjust="75"></trackmarker>
-                
-                                <!-- draw the region boundaries lines for each marker -->
-                <trackmarker start="155" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="AvrII" vadjust="65"></markerlabel>
-                </trackmarker>
-                <trackmarker start="198" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60">
-                    <markerlabel class="vsmlabel red" text="NheI" vadjust="65"></markerlabel>
-                </trackmarker>
+                            <div layout-gt-xs="row">
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>Company (Disabled)</label>
+                                <input ng-model="user.company" disabled>
+                            </md-input-container>
 
-                <trackmarker start="164" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
-                </trackmarker>
-                 <trackmarker start="166" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                </trackmarker>
-                
-                <trackmarker start="170" end="195" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
-                    <markerlabel text="tetO" vadjust="40" hadjust="2" valign="outer" class="smlabel gold" showline="1" linevadjust="-15" linevadjust="-15" lineclass="labelline"></markerlabel>
-                </trackmarker>
-                
-                
-                <trackmarker start="205" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                    <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="210" end="290" markerstyle='stroke:#000;fill:#b84c7d;'  wadjust="0" vadjust="0">
-                      <markerlabel type="path" class="mdlabel white" text="abgT" vadjust="5"></markerlabel>
-                </trackmarker>
-                
-                <trackmarker start="293" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                    <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
-                </trackmarker>
-                 <trackmarker start="295" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                </trackmarker>
+                            <md-input-container>
+                                <label>Enter date</label>
+                                <md-datepicker ng-model="user.submissionDate"></md-datepicker>
+                            </md-input-container>
+                            </div>
 
-            </plasmidtrack>
-        </plasmid>
-        </div>
-        <div class="plasmidedit">
-            <form ng-submit="labelList.addLabel()">
-                <input type="text" ng-model="labelList.labelText"  size="30"
-                placeholder="add new plasmid label here">
-                <input class="btn-primary" type="submit" value="add">
-            </form>
-            
-            <form ng-submit="labelList.removeLastLabel()">
-                <input class="btn-primary" type="submit" value="remove last label">
-            </form>
-        </div>
-            
+                            <div layout-gt-sm="row">
+                            <md-input-container class="md-block" >
+                                <label>First name</label>
+                                <input ng-model="user.firstName">
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label>Long Last Name That Will Be Truncated And 3 Dots (Ellipsis) Will Appear At The End</label>
+                                <input ng-model="theMax">
+                            </md-input-container>
+                            </div>
+
+
+                        </form>
+                        </div>
+                    </md-content>
+                
+                </div> <!-- class="plasmidMarkerEditor" -->
+                
+                <div class="plasmidMarkerAdder">
+                
+                    <form ng-submit="pc.addMarker()">
+                        <input type="text" ng-model="pc.markerText"  size="30"
+                        placeholder="Marker text here"><br>
+                        <label class="checkbox">Type : <select ng-model="pc.selectedMarkerType">
+                        
+                        <option ng-repeat="type in pc.markerTypes" value="{{type.text}}">{{type.text}}</option>
+                        
+                        </select></label>
+                        <input class="btn-primary" type="submit" value="add marker">
+                    </form>
+                </div>
+                
+                <div class="plasmidLabelEditor" id="plLabelEditor">
+                    <form ng-submit="pc.addLabel()">
+                        <input type="text" ng-model="pc.labelText"  size="30"
+                        placeholder="add new plasmid label here"><br>
+                        <label class="checkbox"><input type="checkbox" ng-model="pc.labelType"> Subtitle</label>
+                        <input class="btn-primary" type="submit" value="add label">
+                    </form>
+                    <br>
+                    <form ng-submit="pc.removeLastLabel()">
+                        <input class="btn-primary" type="submit" value="remove last label">
+                    </form>
+                </div>
+
+            </div>
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
-        </center>
+        
     </body>
 </html>
