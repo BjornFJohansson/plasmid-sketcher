@@ -1856,6 +1856,11 @@ angular.module('psk', ['ngMaterial'])
             });
           
         }
+        if(name == "export")
+        {
+           
+          pc.exportSVG();
+        }
     };
     
 
@@ -1885,6 +1890,19 @@ angular.module('psk', ['ngMaterial'])
       $mdSidenav('advSideNav').close()
        
     };
+    
+
+    pc.exportSVG = function () {
+
+                    var title = $mdDialog.alert()
+            .title('Export is not implemented')
+            .textContent('Sorry, export as image file is not implemented. The recommended workaround is to take a screenshot of the plasmid, possibly with browser zoom enabled for better resolution. (As for the reason why : we are not able to export the font and font style correctly, resulting in a bland plasmid design. But we\'re working on it.)')
+                    .ariaLabel('no export')
+                    .clickOutsideToClose(false)
+        .ok('Got it!');
+            
+        $mdDialog.show(title);
+    }
 })
 
 

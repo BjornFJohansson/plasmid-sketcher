@@ -43,7 +43,6 @@
 
         <script src="angular.js"></script>
         <script src='plasmid_sketcher.js'></script>
-        
 
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -54,8 +53,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
-    
-        
     
 
   
@@ -82,7 +79,11 @@
                 </md-button>
               </md-menu-item>
               <md-menu-divider></md-menu-divider>
-              
+              <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('export', $event)">
+                  Export...
+                </md-button>
+              </md-menu-item>
             </md-menu-content>
           </md-menu>
           <md-menu>
@@ -108,8 +109,8 @@
         
         
         
-            <div class="plasmidview">
-                <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
+            <div class="plasmidview" id="plv"  >
+                <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800" id="plsvg">
                     <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220">
                         <tracklabel text="{{pc.plasmidtitle}}"  class="titlelabel" vadjust="0"></tracklabel>
                         <tracklabel text="{{pc.plasmidsubtitle}}"  class="subtitlelabel" vadjust="30"></tracklabel>
@@ -420,39 +421,10 @@
         </md-button>
       </md-content>
 
-                
-                </div> <!-- class="plasmidMarkerEditor"
-                
-                <div class="plasmidMarkerAdder">
-                
-                    <form ng-submit="pc.addMarker()">
-                        <input type="text" ng-model="pc.markerText"  size="30"
-                        placeholder="Marker text here"><br>
-                        <label class="checkbox">Type : <select ng-model="pc.selectedMarkerType">
-                        
-                        <option ng-repeat="type in pc.markerTypes" value="{{type.text}}">{{type.text}}</option>
-                        
-                        </select></label>
-                        <input class="btn-primary" type="submit" value="add marker">
-                    </form>
-                </div>
-                
-                <div class="plasmidLabelEditor" id="plLabelEditor">
-                    <form ng-submit="pc.addLabel()">
-                        <input type="text" ng-model="pc.labelText"  size="30"
-                        placeholder="add new plasmid label here"><br>
-                        <label class="checkbox"><input type="checkbox" ng-model="pc.labelType"> Subtitle</label>
-                        <input class="btn-primary" type="submit" value="add label">
-                    </form>
-                    <br>
-                    <form ng-submit="pc.removeLastLabel()">
-                        <input class="btn-primary" type="submit" value="remove last label">
-                    </form>
-                </div>
-                 -->
-
-            </div>
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
+        <div id="canvas1">
+        </div>
+
         
-    </body>
+   </body> 
 </html>

@@ -72,6 +72,15 @@ body {font-family: Sans;font-weight:400; background-color: white;}
 }
 
 .plasmidview {
+   font-family: "Roboto", Sans;
+}
+
+#plv {
+   font-family: "Roboto", Sans;
+}
+
+#canvas1 {
+   font-family: "Roboto", Sans;
 }
 
 .plasmidedit {
