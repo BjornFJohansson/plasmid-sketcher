@@ -1438,7 +1438,7 @@ angular.module("angularplasmid.services", [])
          
          
 angular.module('psk', ['ngMaterial'])
-    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil) {
+    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil,$mdToast) {
     var pc = this;
     var currVAdjust = 60;
     var currMarkerId = 2;
@@ -1448,39 +1448,82 @@ angular.module('psk', ['ngMaterial'])
     pc.mdcolors = $mdColors;
     pc.colors = Object.keys($mdColorPalette);
     
-    pc.labels = [
-        {text:'', vadjust:0, type:'titlelabel'},
-        {text:'My Biobrick', vadjust:0,type:'titlelabel'},
-        {text:'in pBR322', vadjust:30, type:'subtitlelabel'}];
+    
 
-    pc.markerTypes =[
-        {id:0, text:'Restriction'}
-    ]
+    pc.plasmidtitle = "GO_ParisSaclay MTX";
+    pc.plasmidsubtitle = "in pBR322";
         
     pc.markers = [
-        {id: 0,
-            text:'Dummy',
-            type : 'Restriction site',
-            position:1000,
-            remark : "Cutting site",
-            length : 0,
-            spec_attr : {}
-        },
         {id : 1,
             text:'pBR322',
             type : 'Restriction pair',
             position: 350,
             remark : "Plasmid backbone",
             length : 470,
-            spec_attr : {border1 : "EagI", border2 : "EcoRI", fillcolor : "#ba583b1f"}
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0}
         },
-        {id : 2,
-            text:' ',
-            type : 'Restriction pair',
-            position: 155,
-            remark : "Operon maker",
-            length : 43,
-            spec_attr : {border1 : "AvrII", border2 : "NheI", fillcolor : "#ba583b1f"}
+        {id : 13,
+            text:'Terminator T1',
+            type : 'Terminator',
+            position: 845,
+            remark : "folC terminator",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 10}
+        },
+        {id : 13,
+            text:'folC',
+            type : 'CDS',
+            position: 856,
+            remark : "Cloned from E. coli MG1655",
+            length : 94,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#9da140",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0}
+        },
+        {id : 10,
+            text:'folC RBS',
+            type : 'RBS',
+            position: 955,
+            remark : "Consensus RBS",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 5}
+        },
+        {id : 4,
+            text:'araO (pBAD)',
+            type : 'Promoter',
+            position: 960,
+            remark : "folC promoter",
+            length : 25,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : true,
+                lheight : 40,
+                height : 75,
+                angle : -7
+            }
         },
         {id : 3,
             text:' ',
@@ -1488,10 +1531,202 @@ angular.module('psk', ['ngMaterial'])
             position: 995,
             remark : "Promoter switcher",
             length : 40,
-            spec_attr : {border1 : "XhoI", border2 : "Acc65I", fillcolor : "#ba583b1f"}
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 61,
+                height : 125,
+                angle : 0
+            }
+        },
+        {id : 5,
+            text:'lacO (pL)',
+            type : 'Promoter',
+            position: 5,
+            remark : "cpg2 promoter",
+            length : 25,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
+        },
+        {id : 11,
+            text:'cpg2 RBS',
+            type : 'RBS',
+            position: 45,
+            remark : "Consensus RBS",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 5}
+        },
+        {id : 16,
+            text:'cpg2',
+            type : 'CDS',
+            position: 50,
+            remark : "Recoded & synthetized",
+            length : 100,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#7f63b8",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0}
+        },
+        {id : 17,
+            text:'Terminator T1',
+            type : 'Terminator',
+            position: 162,
+            remark : "folC terminator",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 25}
+        },
+        {id : 2,
+            text:' ',
+            type : 'Restriction pair',
+            position: 155,
+            remark : "Operon maker",
+            length : 43,
+            spec_attr : {border1 : "AvrII",
+                border2 : "NheI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
+        },
+        {id : 6,
+            text:'tetO',
+            type : 'Promoter',
+            position: 170,
+            remark : "abgT promoter",
+            length : 25,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
+        },
+        {id : 12,
+            text:'abgT RBS',
+            type : 'RBS',
+            position: 205,
+            remark : "Consensus RBS",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 5}
+        },
+        {id : 16,
+            text:'abgT',
+            type : 'CDS',
+            position: 210,
+            remark : "Cloned from E. Coli, restriction recoded",
+            length : 80,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#7f63b8",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0}
+        },
+        {id : 17,
+            text:'Terminator T1',
+            type : 'Terminator',
+            position: 292,
+            remark : "folC terminator",
+            length : 20,
+            spec_attr : {border1 : "EagI",
+                border2 : "EcoRI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 35}
+        },
+        {id : 7,
+            text:'Rop',
+            type : 'Misc block',
+            position: 490,
+            remark : "Repression-of-plasmid locus",
+            length : 60,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
+        },
+        {id : 8,
+            text:'Ori',
+            type : 'Misc block',
+            position: 600,
+            remark : "Replication origin",
+            length : 30,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
+        },
+        {id : 9,
+            text:'AmpR',
+            type : 'Misc block',
+            position: 650,
+            remark : "Ampicillin resistance cassette",
+            length : 120,
+            spec_attr : {border1 : "XhoI",
+                border2 : "Acc65I",
+                fillcolor : "#ff0",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+                
+            }
         }
     ];
     
+    
+    pc.currMarkerEdited = pc.markers[0];
+    
+    $scope.selectedMarker = 0;
+    pc.selectedMarkerIdx = 0;
         
     pc.addLabel = function() {
         var labelTypeVar = 'titlelabel';
@@ -1511,29 +1746,44 @@ angular.module('psk', ['ngMaterial'])
     };
     
     pc.addMarker = function() {
-        pc.markers.push({id: currMarkerId, text: pc.markerText, type:pc.selectedMarkerType, position : 1000, length : 0});
-        pc.markerText = '';
+        pc.markers.push({id: currMarkerId,
+            text: "New marker",
+            type: "Restriction site",
+            position : 500,
+            length : 20,
+            spec_attr : {border1 : "EcoRI",
+                border2 : "BamHI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 40,
+                height : 75,
+                angle : 0
+            }});
         currMarkerId += 1;
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('New feature added !')
+        .hideDelay(2000)
+        );
     };
-    
+    pc.deleteMarker = function(index) {
+        pc.markers.splice(index, 1);
+        
+        pc.currMarkerEdited = pc.markers[0];    
+        $scope.selectedMarker = 0;
+        pc.selectedMarkerIdx = 0;
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('Feature deleted !')
+        .hideDelay(2000)
+        );
+    };    
     
     pc.openMenu = function($mdMenu, ev) {
       originatorEv = ev;
       $mdMenu.open(ev);
     };
     
-    pc.addMarkerDialog = function() {
-      $mdDialog.show(
-        $mdDialog.alert()
-          .targetEvent(originatorEv)
-          .clickOutsideToClose(true)
-          .parent('body')
-          .title('Suddenly, a new feature')
-          .textContent('You just added a feature ! Awesome !')
-          .ok('That was easy')
-      );
-      
-    };
     
     
     pc.globalMenuAction = function(name, ev) {
@@ -1555,17 +1805,60 @@ angular.module('psk', ['ngMaterial'])
             position:0,
             remark : "Cutting site",
             length : 0,
-            spec_attr : {}
+            spec_attr : {border1 : "EcoRI",
+                border2 : "BamHI",
+                fillcolor : "#ba583b1f",
+                reverse : false,
+                lheight : 65,
+                height : 75,
+                angle : 0
+            }
         }];
         }, function() {});
           
         }
+        if(name == "editlabel")
+      {
+            var title = $mdDialog.prompt()
+            .title('Edit plasmid title')
+            .textContent('Enter desired plasmid title. (Bold first line)')
+            .placeholder('Plasmid title')
+            .ariaLabel('Plasmid title')
+            .initialValue(pc.plasmidtitle)
+            .targetEvent(ev)
+            .required(true)
+            .ok('Use this title')
+            .cancel('Cancel');
+            
+
+            $mdDialog.show(title).then(function(result) {
+                
+                pc.plasmidtitle = result;
+            
+                var subtitle = $mdDialog.prompt()
+                .title('Edit plasmid subtitle')
+                .textContent('Enter desired plasmid subtitle. (second line)')
+                .placeholder('Plasmid subtitle')
+                .ariaLabel('Plasmid subtitle')
+                .initialValue(pc.plasmidsubtitle)
+                .targetEvent(ev)
+                .required(true)
+                .ok('Use this subtitle')
+                .cancel('Cancel');
+                
+                $mdDialog.show(subtitle).then(function(subresult) {
+                    pc.plasmidsubtitle = subresult;
+                 }, function() {
+                return;
+                });
+            }, function() {
+                return;
+            });
+          
+        }
     };
     
-    pc.currMarkerEdited = pc.markers[0];
-    
-    $scope.selectedMarker = 0;
-    pc.selectedMarkerIdx = 0;
+
     pc.selectMarker = function (index) {
     if ($scope.selectedMarker === null) {
       $scope.selectedMarker = index;

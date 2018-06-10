@@ -85,6 +85,20 @@
               
             </md-menu-content>
           </md-menu>
+          <md-menu>
+            <button ng-click="$mdMenu.open()">
+              Plasmid properties
+            </button>
+            <md-menu-content>
+              <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('editlabel', $event)">
+                  Edit plasmid label
+                </md-button>
+              </md-menu-item>
+              <md-menu-divider></md-menu-divider>
+              
+            </md-menu-content>
+          </md-menu>
         </md-menu-bar>
       </div>
     </div>
@@ -96,116 +110,81 @@
         
             <div class="plasmidview">
                 <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800">
-                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220" ng-repeat="label in pc.labels"> <!--  dummy plasmid track for ng repeat label -->
-                        <tracklabel text="{{label.text}}"  class="{{label.type}}" vadjust="{{label.vadjust}}"></tracklabel>
+                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220">
+                        <tracklabel text="{{pc.plasmidtitle}}"  class="titlelabel" vadjust="0"></tracklabel>
+                        <tracklabel text="{{pc.plasmidsubtitle}}"  class="subtitlelabel" vadjust="30"></tracklabel>
                     </plasmidtrack>
                     
-                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="50" radius="220" ng-repeat="marker in pc.markers"> <!--  dummy plasmid track for ng repeat marker -->
-                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60" ng-if="marker.type =='Restriction site'">
-                            <markerlabel class="vsmlabel red" text="{{marker.text}}" vadjust="65"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60" ng-if="marker.type =='Restriction pair'">
-                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border1}}" vadjust="65"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="{{marker.position + marker.length}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.5px;" class="boundary" wadjust="60" ng-if="marker.type =='Restriction pair'">
-                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border2}}" vadjust="65"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle="fill:{{marker.spec_attr.fillcolor}}"  wadjust="-12" vadjust="75" ng-if="marker.type =='Restriction pair'">
-                        <markerlabel type="path" text="{{marker.text}}" class="smlabel red" vadjust="5"></markerlabel>
-                        </trackmarker>
-                    </plasmidtrack>
+                    
                     
                     
                     <plasmidtrack trackstyle="fill:#ccc" width="5" radius="240"></plasmidtrack>
                     <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="220">
+</plasmidtrack>
 
 
-
-                        
-   
-                        
-                        <trackmarker start="490" end="550" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" text="Rop" class="vsmlabel white" vadjust="5"></markerlabel>
+                        <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="50" radius="220" ng-repeat="marker in pc.markers"> <!--  dummy plasmid track for ng repeat marker -->
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:0.6px;" class="boundary" wadjust="60" ng-if="marker.type =='Restriction site'">
+                            <markerlabel class="vsmlabel red" text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}"></markerlabel>
                         </trackmarker>
                         
                         
-                    <trackmarker start="600" end="630" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" text="Ori" class="vsmlabel white" vadjust="5"></markerlabel>
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.6px;" class="boundary" wadjust="{{marker.spec_attr.height - 15}}" ng-if="marker.type =='Restriction pair'">
+                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border1}}" vadjust="{{marker.spec_attr.lheight + 25}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position + marker.length}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.6px;" class="boundary" wadjust="{{marker.spec_attr.height - 15}}" ng-if="marker.type =='Restriction pair'">
+                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border2}}" vadjust="{{marker.spec_attr.lheight + 25}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle="fill:{{marker.spec_attr.fillcolor}}"  wadjust="-12" vadjust="{{marker.spec_attr.height}}" ng-if="marker.type =='Restriction pair'">
+                        <markerlabel type="path" text="{{marker.text}}" class="smlabel red" vadjust="5"></markerlabel>
                         </trackmarker>
                         
-                        <trackmarker start="650" end="780" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" text="AmpR" class="vsmlabel white" vadjust="5"></markerlabel>
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000000;fill:{{marker.spec_attr.fillcolor}};' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0"  ng-if="marker.type =='Promoter' && marker.spec_attr.reverse == true">
+                            <markerlabel text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
                         </trackmarker>
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000000;fill:{{marker.spec_attr.fillcolor}};' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5" ng-if="marker.type =='Promoter' && marker.spec_attr.reverse == false">
+                            <markerlabel text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20" ng-if="marker.type =='RBS'" >
+                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="{{-8-marker.spec_attr.angle}}"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:{{marker.spec_attr.fillcolor}};'  wadjust="0" vadjust="0" ng-if="marker.type =='CDS' && marker.spec_attr.reverse == false">
+                            <markerlabel type="path" class="mdlabel white" text="{{marker.text}}" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:{{marker.spec_attr.fillcolor}};'  wadjust="0" vadjust="0" ng-if="marker.type =='CDS' && marker.spec_attr.reverse == true">
+                            <markerlabel vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline" text="{{marker.text}}"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20" ng-if="marker.type =='Terminator'">
+                            <markerlabel text="{{marker.text}}" class="vsmlabel purple" valign="inner" vadjust="{{-10-marker.spec_attr.angle}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position + 2}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20" ng-if="marker.type =='Terminator'">
+                        </trackmarker>
+                        
+                        
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0" ng-if="marker.type =='Misc block'">
+                            <markerlabel type="path" text="{{marker.text}}" class="vsmlabel white" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                    </plasmidtrack>
+                        
+                        
+                        
+                        
                     
 
 
-                        
-                        <trackmarker start="960" end="985" markerstyle='stroke:#000;fill:#ff0;' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0">
-                            <markerlabel text="araO (pBAD)" vadjust="40" hadjust="-8" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
-                        </trackmarker>
-                        
-                        <trackmarker start="955" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
-                        </trackmarker>
-                        
-                        <trackmarker start="856" end="950" markerstyle='stroke:#000;fill:#9da140;'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" class="mdlabel white" text="folC" vadjust="5"></markerlabel>
-                        </trackmarker>
-                        
+                
 
-                        
-                        <trackmarker start="850" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="852" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                        </trackmarker>
+                    
 
-
-                        
-                        
-                        
-                        <trackmarker start="5" end="30" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
-                            <markerlabel text="lacO (pL)" vadjust="40" hadjust="0" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
-                        </trackmarker>
-                        
-                        <trackmarker start="45" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-8"></markerlabel>
-                        </trackmarker>
-                        
-                        
-                        <trackmarker start="50" end="150" markerstyle='stroke:#000;fill:#7f63b8;'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" class="mdlabel white" text="cpg2" vadjust="5"></markerlabel>
-                        </trackmarker>
-                        
-                        
-  
-
-                        <trackmarker start="164" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="166" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                        </trackmarker>
-                        
-                        <trackmarker start="170" end="195" markerstyle='stroke:#000;fill:#ff0;' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5">
-                            <markerlabel text="tetO" vadjust="40" hadjust="2" valign="outer" class="smlabel gold" showline="1" linevadjust="-15" linevadjust="-15" lineclass="labelline"></markerlabel>
-                        </trackmarker>
-                        
-                        
-                        <trackmarker start="205" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20">
-                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="-10"></markerlabel>
-                        </trackmarker>
-                        
-                        <trackmarker start="210" end="290" markerstyle='stroke:#000;fill:#b84c7d;'  wadjust="0" vadjust="0">
-                            <markerlabel type="path" class="mdlabel white" text="abgT" vadjust="5"></markerlabel>
-                        </trackmarker>
-                        
-                        <trackmarker start="293" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20">
-                            <markerlabel text="Terminator T1" class="vsmlabel purple" valign="inner" vadjust="-20"></markerlabel>
-                        </trackmarker>
-                        <trackmarker start="295" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20">
-                        </trackmarker>
-
-                    </plasmidtrack>
                 </plasmid>
             </div> <!-- plasmid view -->
             <div class="plasmidedit">
@@ -213,23 +192,14 @@
                 <div class="plasmidMarkerList">
                   <md-toolbar class="md-theme-light" >
                   <div class="md-toolbar-tools">
-                    <h2>
+                    <h2 flex md-truncate>
                     <span>Features</span>
                     </h2>
                     
-                    <md-menu>
-      <md-button aria-label="Create new feature" class="md-icon-button" ng-click="pc.openMenu($mdMenu, $event)">
+      <md-button aria-label="Create new feature" class="md-icon-button" ng-click="pc.addMarker()">
         <md-icon md-menu-origin md-svg-icon="content:add" style="color: white;"></md-icon>
       </md-button>
-      <md-menu-content width="4">
-        <md-menu-item>
-          <md-button ng-click="pc.addMarkerDialog()">
-            <md-icon md-svg-icon="content:create" md-menu-align-target style="color: black;"></md-icon>
-            Create new feature
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
+      
                     </div>
                 </md-toolbar>
 
@@ -242,6 +212,7 @@
                         <h4>{{marker.type}}</h4>
                         <p>{{marker.remark}}</p>
                         </div>
+                         <md-button class="md-secondary" ng-click="pc.deleteMarker($index)">Delete</md-button>
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
                     </md-list>
@@ -295,10 +266,11 @@
                         </md-input-container>
                         
                         <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'Restriction site'">
-                        
+
                         </div>
+                        
+                        
                         <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'Restriction pair'">
-                            Restriction pair :
                             <md-slider-container >
                             <label>Length </label>
                             <md-slider min="0" max="1000" ng-model="pc.markers[pc.selectedMarkerIdx].length" aria-label="position" id="red-slider" class="md-warn"> 
@@ -315,14 +287,111 @@
                             
                             <md-input-container>
                          <label>Color : </label>
-                        <md-select ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.fillcolor" placeholder="Feature type"  class="md-no-underline">
+                        <md-select ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.fillcolor" placeholder="Fill color"  class="md-no-underline">
                                     <md-option value="#ba583b1f">Default</md-option>
                                     <md-option value="#0000001f">Black (light)</md-option>
                                     <md-option value="#0000005f">Black (dark)</md-option>
                                     <md-divider></md-divider>
                                     <md-option ng-repeat="color in pc.colors" md-colors="{background: '{{color}}'}" value="{{pc.mdcolors.getThemeColor(color + '-500-0.4')}}">{{color}}</md-option>
                         </md-input-container>
+                        <md-slider-container >
+                            <label>Height </label>
+                            <md-slider min="0" max="200" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.height" aria-label="heigth" > 
+                            </md-slider>{{pc.markers[pc.selectedMarkerIdx].spec_attr.height}}
+                            </md-slider-container>
+                        
                         </div>
+                        
+                        
+                        <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'Promoter'">
+                            <md-slider-container >
+                            <label>Length </label>
+                            <md-slider min="0" max="300" ng-model="pc.markers[pc.selectedMarkerIdx].length" aria-label="length" id="red-slider" class="md-warn"> 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].length}} (end : {{pc.markers[pc.selectedMarkerIdx].position + pc.markers[pc.selectedMarkerIdx].length}})
+                            </md-slider-container>
+                            
+                            <md-input-container>
+                            <label>Color : </label>
+                            <md-select ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.fillcolor" placeholder="Fill color"  class="md-no-underline">
+                                        <md-option md-colors="{background: #ff0}" value="#ff0">Yellow !</md-option>
+                                        <md-divider></md-divider>
+                                        <md-option ng-repeat="color in pc.colors" md-colors="{background: '{{color}}'}" value="{{pc.mdcolors.getThemeColor(color + '-500-1')}}">{{color}}</md-option>
+                            </md-input-container>
+                              <md-switch ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.reverse" aria-label="Reverse sense switch">Reverse </md-switch>
+                            <md-slider-container >
+                            <label>Angle </label>
+                            <md-slider min="-50" max="50" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.angle" aria-label="angle" > 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].spec_attr.angle}}
+                            </md-slider-container> 
+                              
+                        </div>
+                        
+                        <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'RBS'">
+                        
+                            <md-slider-container >
+                            <label>Height </label>
+                            <md-slider min="0" max="30" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.angle" aria-label="height_rbs" > 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].spec_attr.angle}}
+                            </md-slider-container>
+                            
+                              
+                        </div>
+                        
+                        
+                        <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'CDS'">
+                            <md-slider-container >
+                            <label>Length </label>
+                            <md-slider min="0" max="900" ng-model="pc.markers[pc.selectedMarkerIdx].length" aria-label="length" id="red-slider" class="md-warn"> 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].length}} (end : {{pc.markers[pc.selectedMarkerIdx].position + pc.markers[pc.selectedMarkerIdx].length}})
+                            </md-slider-container>
+                            
+                            <md-input-container>
+                            <label>Color : </label>
+                            <md-select ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.fillcolor" placeholder="Fill color"  class="md-no-underline">
+                                        <md-option ng-repeat="color in pc.colors" md-colors="{background: '{{color}}'}" value="{{pc.mdcolors.getThemeColor(color + '-500-1')}}">{{color}}</md-option>
+                            </md-input-container>
+                            
+                            <md-switch ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.reverse" aria-label="Reverse sense switch">Outer label </md-switch>
+                            <md-slider-container ng-if="pc.markers[pc.selectedMarkerIdx].spec_attr.reverse == true">
+                            <label>Angle </label>
+                            <md-slider min="-50" max="50" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.angle" aria-label="angle" > 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].spec_attr.angle}}
+                            </md-slider-container> 
+                              
+                        </div>
+                        
+                        
+                        <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'Terminator'">
+                        
+                            <md-slider-container >
+                            <label>Height </label>
+                            <md-slider min="0" max="30" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.angle" aria-label="height_rbs" > 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].spec_attr.angle}}
+                            </md-slider-container>
+                            
+                              
+                        </div>
+                        
+                        <div ng-if="pc.markers[pc.selectedMarkerIdx].type == 'Misc block'">
+                        
+                            <md-slider-container >
+                            <label>Length </label>
+                            <md-slider min="0" max="300" ng-model="pc.markers[pc.selectedMarkerIdx].length" aria-label="position" id="red-slider" class="md-warn"> 
+                            </md-slider>
+                            {{pc.markers[pc.selectedMarkerIdx].length}} (end : {{pc.markers[pc.selectedMarkerIdx].position + pc.markers[pc.selectedMarkerIdx].length}})
+                            </md-slider-container>
+                            
+                              
+                        </div>
+                        
+                        
+
    
                      <md-button ng-click="pc.toggleAdvSidenav()"
                         class="md-primary">
@@ -339,7 +408,12 @@
         <h1 class="md-toolbar-tools">Advanced properties</h1>
       </md-toolbar>
       <md-content layout-padding>
-      None yet...
+           <md-slider-container >
+                            <label>Label height (vadjust)</label>
+                            <md-slider min="-100" max="100" ng-model="pc.markers[pc.selectedMarkerIdx].spec_attr.lheight" aria-label="labelheight"> 
+                            </md-slider>
+                            <br />{{pc.markers[pc.selectedMarkerIdx].spec_attr.lheight}}
+                        </md-slider-container>
       
         <md-button ng-click="pc.closeAdvSidenav()" class="md-primary">
           Close
