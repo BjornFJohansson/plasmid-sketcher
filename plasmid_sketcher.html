@@ -84,6 +84,17 @@
                   Export...
                 </md-button>
               </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+              <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('savelocal', $event)">
+                  Save to browser local storage
+                </md-button>
+              </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('loadlocal', $event)">
+                  Load from browser local storage
+                </md-button>
+              </md-menu-item>
             </md-menu-content>
           </md-menu>
           <md-menu>
@@ -262,7 +273,7 @@
                                     <md-option value="CDS">CDS</md-option>
                                     <md-option value="Terminator">Terminator</md-option>
                                     <md-divider></md-divider>
-                                    <md-option value="Misc">Misc block</md-option>
+                                    <md-option value="Misc block">Misc block</md-option>
                                 </md-select>
                         </md-input-container>
                         

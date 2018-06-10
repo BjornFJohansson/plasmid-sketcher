@@ -1787,6 +1787,14 @@ angular.module('psk', ['ngMaterial'])
     
     
     pc.globalMenuAction = function(name, ev) {
+        if(name == "savelocal")
+      {
+          pc.saveLocal();
+      }
+      if(name == "loadlocal")
+      {
+          pc.loadLocal();
+      }
       if(name == "new")
       {
           var confirm = $mdDialog.confirm()
@@ -1903,6 +1911,42 @@ angular.module('psk', ['ngMaterial'])
             
         $mdDialog.show(title);
     }
+    
+    pc.saveLocal =  function () {
+
+        localStorage.setItem("plasmidLocalStorage",angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]));
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('Saved to local storage')
+        .hideDelay(2000)
+        );
+        
+    }
+    
+    pc.loadLocal =  function () {
+
+        var a = angular.fromJson(localStorage.plasmidLocalStorage);
+        if(a == undefined)
+        {
+                    $mdToast.show(
+        $mdToast.simple()
+        .textContent('Error while loading from local storage')
+        .hideDelay(2000)
+        );
+        }else{
+            pc.plasmidtitle = a[0];
+            pc.plasmidsubtitle = a[1];
+            pc.markers = a[2];
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('Loaded from local storage')
+        .hideDelay(2000)
+        );
+        }
+
+        
+    }
+    
 })
 
 
