@@ -42,7 +42,6 @@
         <link rel="stylesheet" href="ps.css">
 
         <script src="angular.js"></script>
-        <script src='plasmid_sketcher.js'></script>
 
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -53,8 +52,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
-    
 
+
+        <script src='plasmid_sketcher.js'></script>
   
   
     </head>
@@ -88,12 +88,25 @@
               <md-menu-item>
                 <md-button ng-click="pc.globalMenuAction('savelocal', $event)">
                   Save to browser local storage
+                   <md-tooltip>Save for later. Only one plasmid can be saved this way !</md-tooltip>
                 </md-button>
               </md-menu-item>
             <md-menu-item>
                 <md-button ng-click="pc.globalMenuAction('loadlocal', $event)">
                   Load from browser local storage
+                  <md-tooltip>Load the previously saved plasmid !</md-tooltip>
                 </md-button>
+              </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button ng-click="pc.globalMenuAction('savefile', $event)">
+                    Save to file
+                    </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                    <md-button ng-click="pc.globalMenuAction('loadfile', $event)">
+                    Load from file
+                    </md-button>
               </md-menu-item>
             </md-menu-content>
           </md-menu>
@@ -431,7 +444,38 @@
           Close
         </md-button>
       </md-content>
-
+        </md-sidenav>
+        
+     <script type="text/ng-template" id="tpl_load_dialog.html">
+     
+     <md-dialog  aria-label="Load local file" layout="column" layout-align="center center">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Load local file</h1>
+      </md-toolbar>
+       <div class="load-dialog-content">
+            <p>
+            Select a local file : <label class="custom-file-upload">
+                <input type="file" id="loadFileElement"/>
+            <i class="fa fa-cloud-upload"></i> Browse
+            </label>
+            </p>
+        </div>
+         <div id="loadprogress">
+         </div>
+        <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancelDialog()">
+       Cancel
+      </md-button>
+      <md-button ng-click="loadLocalFileFile()">
+        Load file !
+      </md-button>
+    </md-dialog-actions>
+      </md-dialog>
+        </script>
+      
+      
+      
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
         <div id="canvas1">
         </div>
