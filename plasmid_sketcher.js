@@ -1438,7 +1438,7 @@ angular.module("angularplasmid.services", [])
          
          
 angular.module('psk', ['ngMaterial'])
-    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil,$mdToast) {
+    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil,$mdToast, $mdPanel) {
     var pc = this;
     var currVAdjust = 60;
     var currMarkerId = 2;
@@ -1795,6 +1795,14 @@ angular.module('psk', ['ngMaterial'])
       {
           pc.loadLocal();
       }
+      if(name == "savefile")
+      {
+          pc.saveFile();
+      }
+      if(name == "loadfile")
+      {
+          pc.loadFile();
+      }
       if(name == "new")
       {
           var confirm = $mdDialog.confirm()
@@ -1902,7 +1910,7 @@ angular.module('psk', ['ngMaterial'])
 
     pc.exportSVG = function () {
 
-                    var title = $mdDialog.alert()
+        var title = $mdDialog.alert()
             .title('Export is not implemented')
             .textContent('Sorry, export as image file is not implemented. The recommended workaround is to take a screenshot of the plasmid, possibly with browser zoom enabled for better resolution. (As for the reason why : we are not able to export the font and font style correctly, resulting in a bland plasmid design. But we\'re working on it.)')
                     .ariaLabel('no export')
@@ -1913,7 +1921,6 @@ angular.module('psk', ['ngMaterial'])
     }
     
     pc.saveLocal =  function () {
-
         localStorage.setItem("plasmidLocalStorage",angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]));
         $mdToast.show(
         $mdToast.simple()
@@ -1943,9 +1950,109 @@ angular.module('psk', ['ngMaterial'])
         .hideDelay(2000)
         );
         }
+    }
+    
+    pc.loadLocalFileWorkaround =  function () {
 
+        var a = angular.fromJson(localStorage.plasmidLocalStorageFWORKAROUND);
+        if(a == undefined)
+        {
+                    $mdToast.show(
+        $mdToast.simple()
+        .textContent('Error while loading from local file')
+        .hideDelay(2000)
+        );
+        }else{
+            pc.plasmidtitle = a[0];
+            pc.plasmidsubtitle = a[1];
+            pc.markers = a[2];
+        }
+    }
+    
+    
+    pc.saveFile =  function () {
+        var jsonsave = angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]);
+        
+        var file = new Blob([jsonsave], {type: 'text/plain'});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+            window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+            var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+            a.href = url;
+            a.download = "plasmid.json";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);  
+            }, 0); 
+        }
+        
         
     }
+    
+    pc.loadFile =  function () {
+        
+        pc.showLoadDialog();
+    }
+    
+    
+    pc.showLoadDialog = function() {
+        
+        var loadDialog = {
+            controller: 'plasmidController',
+            templateUrl: 'tpl_load_dialog.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose:true,
+            onRemoving : pc.loadLocalFileWorkaround
+        };
+        $mdDialog.show(loadDialog);
+    }
+
+    
+    $scope.loadLocalFileFile = function() {
+        
+        var fileinput = document.getElementById('loadFileElement');
+        var files = fileinput.files;
+        if(files.length == 0)
+        {
+            $mdDialog.show($mdDialog.alert()
+            .title('No file selected !')
+            .textContent('You did not select a file...')
+            .ariaLabel('no file')
+            .clickOutsideToClose(false).ok('Ok'));
+        }
+        if(files.length == 1)
+        {
+            var reader = new FileReader();
+            reader.onloadend = function(e) {
+                    var loadedSave = angular.fromJson(e.target.result);
+                    if(loadedSave == undefined)
+                        {
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Error while loading from file')
+                        .hideDelay(2000)
+                        );
+                        }else{
+                        localStorage.setItem("plasmidLocalStorageFWORKAROUND",e.target.result);
+                        
+                        }
+                };
+
+            
+            reader.readAsText(files[0]);
+            
+        }
+        
+      $mdDialog.hide();
+    };
+    
+    $scope.cancelDialog = function() {
+      $mdDialog.cancel();
+    };
+    
     
 })
 
