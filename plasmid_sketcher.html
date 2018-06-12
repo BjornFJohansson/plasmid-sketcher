@@ -52,9 +52,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
-
-
+        
         <script src='plasmid_sketcher.js'></script>
+  
+  
   
   
     </head>
@@ -97,6 +98,19 @@
                   <md-tooltip>Load the previously saved plasmid !</md-tooltip>
                 </md-button>
               </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <!--
+                <md-menu-item>
+                    <md-button ng-click="pc.globalMenuAction('savefile', $event)">
+                    Save to file
+                    </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                    <md-button ng-click="pc.globalMenuAction('loadfile', $event)">
+                    Load from file
+                    </md-button>
+              </md-menu-item>
+              -->
             </md-menu-content>
           </md-menu>
           <md-menu>
@@ -463,7 +477,11 @@
       </md-dialog>
         </script>
       
-      
+              <div id="logging">
+            <span ng-repeat="elem in pc.log">
+            {{elem}}
+            </span>
+        </div>
       
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
         <div id="canvas1">

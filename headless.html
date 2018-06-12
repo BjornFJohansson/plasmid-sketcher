@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"> 
+<!--
+
+    Copyright (c) 2018 Eliane Briand
+
+    This file is part of Plasmid Sketcher.
+
+    Plasmid sketcher is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    This project incorporates work covered by the following copyright and permission notice :
+
+    The MIT License (MIT)
+
+    Copyright (c) 2014 Rehan Chawdry <rchawdry@vixis.com>
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
+
+    <head>
+    
+        <link rel="stylesheet" href="ps.css">
+
+        <script src="angular.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- Angular Material stuff -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+        
+        <script src='plasmid_sketcher.js'></script>
+  
+  
+  
+  
+    </head>
+    <body  ng-controller="plasmidController as pc">
+        
+
+        <div ng-cloak class="flcontainer">
+
+        
+        
+        
+            <div class="plasmidview" id="plv"  >
+                <plasmid sequencelength="1000" plasmidheight="800" plasmidwidth="800" id="plsvg">
+                    <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="0" radius="220">
+                        <tracklabel text="{{pc.plasmidtitle}}"  class="titlelabel" vadjust="0"></tracklabel>
+                        <tracklabel text="{{pc.plasmidsubtitle}}"  class="subtitlelabel" vadjust="30"></tracklabel>
+                    </plasmidtrack>
+                    
+                    
+                    
+                    
+                    <plasmidtrack trackstyle="fill:#ccc" width="5" radius="240"></plasmidtrack>
+                    <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" width="50" radius="220"></plasmidtrack>
+
+
+                        <plasmidtrack trackstyle="fill:rgba(0,0,0,0)" width="50" radius="220" ng-repeat="marker in pc.markers"> <!--  dummy plasmid track for ng repeat marker -->
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:0.6px;" class="boundary" wadjust="60" ng-if="marker.type =='Restriction site'">
+                            <markerlabel class="vsmlabel red" text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.6px;" class="boundary" wadjust="{{marker.spec_attr.height - 15}}" ng-if="marker.type =='Restriction pair'">
+                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border1}}" vadjust="{{marker.spec_attr.lheight + 25}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position + marker.length}}" markerstyle="stroke:rgba(128,64,64,0.8);stroke-width:.6px;" class="boundary" wadjust="{{marker.spec_attr.height - 15}}" ng-if="marker.type =='Restriction pair'">
+                            <markerlabel class="vsmlabel red" text="{{marker.spec_attr.border2}}" vadjust="{{marker.spec_attr.lheight + 25}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle="fill:{{marker.spec_attr.fillcolor}}"  wadjust="-12" vadjust="{{marker.spec_attr.height}}" ng-if="marker.type =='Restriction pair'">
+                        <markerlabel type="path" text="{{marker.text}}" class="smlabel red" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000000;fill:{{marker.spec_attr.fillcolor}};' arrowstartlength="5" arrowstartwidth="3" wadjust="5" vadjust="-0"  ng-if="marker.type =='Promoter' && marker.spec_attr.reverse == true">
+                            <markerlabel text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000000;fill:{{marker.spec_attr.fillcolor}};' arrowendlength="5" arrowendwidth="3"  vadjust="0" wadjust="5" ng-if="marker.type =='Promoter' && marker.spec_attr.reverse == false">
+                            <markerlabel text="{{marker.text}}" vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;stroke-dasharray:2,2" vadjust="-10" wadjust="20" ng-if="marker.type =='RBS'" >
+                            <markerlabel text="RBS" class="vsmlabel purple" valign="inner" vadjust="{{-8-marker.spec_attr.angle}}"></markerlabel>
+                        </trackmarker>
+                        
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:{{marker.spec_attr.fillcolor}};'  wadjust="0" vadjust="0" ng-if="marker.type =='CDS' && marker.spec_attr.reverse == false">
+                            <markerlabel type="path" class="mdlabel white" text="{{marker.text}}" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:{{marker.spec_attr.fillcolor}};'  wadjust="0" vadjust="0" ng-if="marker.type =='CDS' && marker.spec_attr.reverse == true">
+                            <markerlabel vadjust="{{marker.spec_attr.lheight}}" hadjust="{{marker.spec_attr.angle}}" valign="outer" class="smlabel gold" showline="1" linevadjust="-5" linevadjust="-15" lineclass="labelline" text="{{marker.text}}"></markerlabel>
+                        </trackmarker>
+                        
+                        <trackmarker start="{{marker.position}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px" vadjust="-10" wadjust="20" ng-if="marker.type =='Terminator'">
+                            <markerlabel text="{{marker.text}}" class="vsmlabel purple" valign="inner" vadjust="{{-10-marker.spec_attr.angle}}"></markerlabel>
+                        </trackmarker>
+                        <trackmarker start="{{marker.position + 2}}" markerstyle="stroke:rgba(255,0,0,.3);stroke-width:1px;" vadjust="-10" wadjust="20" ng-if="marker.type =='Terminator'">
+                        </trackmarker>
+                        
+                        
+                        
+                        <trackmarker start="{{marker.position}}" end="{{marker.position + marker.length}}" markerstyle='stroke:#000;fill:rgba(0,100,100,1);'  wadjust="0" vadjust="0" ng-if="marker.type =='Misc block'">
+                            <markerlabel type="path" text="{{marker.text}}" class="vsmlabel white" vadjust="5"></markerlabel>
+                        </trackmarker>
+                        
+                    </plasmidtrack>
+                        
+                        
+                        
+                        
+                    
+
+
+                
+
+                    
+
+                </plasmid>
+            </div> <!-- plasmid view -->
+
+        </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
+        <div id="canvas1">
+        </div>
+
+
+        
+   </body> 
+</html>
