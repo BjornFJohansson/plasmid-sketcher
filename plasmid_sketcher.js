@@ -1438,7 +1438,15 @@ angular.module("angularplasmid.services", [])
          
          
 angular.module('psk', ['ngMaterial'])
-    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil,$mdToast, $mdPanel) {
+    .config(function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+        });
+    })
+    .controller('plasmidController', function($scope,$mdDialog,$mdSidenav, $mdColorPalette,$mdColors, $mdColorUtil,$mdToast, $mdPanel, $window,$location) {
+        
+        
     var pc = this;
     var currVAdjust = 60;
     var currMarkerId = 2;
@@ -1453,7 +1461,11 @@ angular.module('psk', ['ngMaterial'])
 
     pc.plasmidtitle = "GO_ParisSaclay MTX";
     pc.plasmidsubtitle = "in pBR322";
-        
+    
+    if($location.url() == "/headless.html")
+    {
+        pc.markers = [];
+    }else{
     pc.markers = [
         {id : 1,
             text:'pBR322',
@@ -1722,6 +1734,7 @@ angular.module('psk', ['ngMaterial'])
             }
         }
     ];
+    } // else (headless)
     
     
     pc.currMarkerEdited = pc.markers[0];
@@ -1804,6 +1817,10 @@ angular.module('psk', ['ngMaterial'])
       {
           pc.loadFile();
       }
+      if(name == "headless")
+      {
+          pc.showHeadless();
+      }
       if(name == "new")
       {
           var confirm = $mdDialog.confirm()
@@ -1880,6 +1897,29 @@ angular.module('psk', ['ngMaterial'])
         }
     };
     
+    pc.showHeadless = function () {
+        localStorage.setItem("plasmidHeadlessStorage",angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]));
+        $window.open('headless.html', '_blank');
+    }
+    
+    pc.restoreForHeadless = function () {
+        var a = angular.fromJson(localStorage.getItem("plasmidHeadlessStorage"));
+        if(a == undefined)
+        {
+            pc.markers = [];
+            pc.plasmidtitle = "Error";
+            pc.plasmidsubtitle = "while showing headless";
+        }else{
+            pc.plasmidtitle = a[0];
+            pc.plasmidsubtitle = a[1];
+            pc.markers = a[2];
+        }
+    }
+    
+    if($location.url() == "/headless.html")
+    {
+        pc.restoreForHeadless();
+    }
 
     pc.selectMarker = function (index) {
     if ($scope.selectedMarker === null) {
@@ -1913,7 +1953,7 @@ angular.module('psk', ['ngMaterial'])
 
         var title = $mdDialog.alert()
             .title('Export is not implemented')
-            .textContent('Sorry, export as image file is not yet implemented. The recommended workaround is to print as PDF, which will provide you a vector image in most case. (seems to work better in firefox on linux)')
+            .textContent('Sorry, export as image file is not yet implemented. The recommended workaround is to use the "Show headless" menu, then print the page as PDF, which will provide you a vector image in most case. (seems to work better in firefox)')
                     .ariaLabel('no export')
                     .clickOutsideToClose(false)
         .ok('Got it!');
