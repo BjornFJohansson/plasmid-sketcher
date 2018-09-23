@@ -35,7 +35,7 @@
  */
 
  @import url("http://fonts.googleapis.com/css?family=Lato:300,400,700|Donegal+One|Source+Code+Pro:400");
-body {font-family: Sans;font-weight:400; background-color: white;}
+body {font-family:'Roboto', 'Source Sans Pro', sans-serif;font-weight:400; background-color: white;}
 .boundary {stroke-dasharray:2,2;stroke-width:2px}
 .mdlabel {font-size:25px}
 .labelline {stroke:#333;stroke-width:2px;}

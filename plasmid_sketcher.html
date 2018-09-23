@@ -103,6 +103,13 @@
                   <md-tooltip>Load the previously saved plasmid !</md-tooltip>
                 </md-button>
               </md-menu-item>
+        <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('showinternal', $event)">
+                  Show internal representation
+                  <md-tooltip>Show JSON corresponding to the plasmid</md-tooltip>
+                </md-button>
+              </md-menu-item>
             <md-menu-divider></md-menu-divider>
             <!--
                 <md-menu-item>
@@ -482,11 +489,7 @@
       </md-dialog>
         </script>
       
-              <div id="logging">
-            <span ng-repeat="elem in pc.log">
-            {{elem}}
-            </span>
-        </div>
+            
       
         </div> <!--  <div ng-controller="plasmidController as labelList"> --> 
         <div id="canvas1">

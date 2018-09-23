@@ -1809,6 +1809,10 @@ angular.module('psk', ['ngMaterial'])
       {
           pc.loadLocal();
       }
+     if(name == "showinternal")
+      {
+          pc.showInternal();
+      }
       if(name == "savefile")
       {
           pc.saveFile();
@@ -1953,12 +1957,23 @@ angular.module('psk', ['ngMaterial'])
 
         var title = $mdDialog.alert()
             .title('Export is not implemented')
-            .textContent('Sorry, export as image file is not yet implemented. The recommended workaround is to use the "Show headless" menu, then print the page as PDF, which will provide you a vector image in most case. (seems to work better in firefox)')
+            .textContent('Sorry, export as image file is not yet implemented. The recommended workaround is to use the "Show headless" menu, then print the page as PDF, which will provide you a vector image in most case.')
                     .ariaLabel('no export')
                     .clickOutsideToClose(false)
         .ok('Got it!');
             
         $mdDialog.show(title);
+    }
+    
+    pc.showInternal = function () {
+        var showjson = $mdDialog.alert()
+            .title('Internal JSON representation')
+            .textContent(angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]))
+                    .ariaLabel('no export')
+                    .clickOutsideToClose(false)
+        .ok('Close');
+            
+        $mdDialog.show(showjson);
     }
     
     pc.saveLocal =  function () {
