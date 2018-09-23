@@ -110,7 +110,12 @@
                   <md-tooltip>Show JSON corresponding to the plasmid</md-tooltip>
                 </md-button>
               </md-menu-item>
-            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="pc.globalMenuAction('loadinternal', $event)">
+                  Load internal representation
+                  <md-tooltip>Load a JSON representation</md-tooltip>
+                </md-button>
+              </md-menu-item>
             <!--
                 <md-menu-item>
                     <md-button ng-click="pc.globalMenuAction('savefile', $event)">

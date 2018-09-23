@@ -1813,6 +1813,10 @@ angular.module('psk', ['ngMaterial'])
       {
           pc.showInternal();
       }
+      if(name == "loadinternal")
+      {
+          pc.loadInternal(ev);
+      }
       if(name == "savefile")
       {
           pc.saveFile();
@@ -1969,12 +1973,54 @@ angular.module('psk', ['ngMaterial'])
         var showjson = $mdDialog.alert()
             .title('Internal JSON representation')
             .textContent(angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]))
-                    .ariaLabel('no export')
+                    .ariaLabel('internal representation')
                     .clickOutsideToClose(false)
         .ok('Close');
             
         $mdDialog.show(showjson);
     }
+    
+    pc.loadInternal = function (ev) {
+    var loaderdialog = $mdDialog.prompt()
+      .title('Loading internal representation')
+      .textContent('Paste the internal represenation in the text file : ')
+      .placeholder('')
+      .ariaLabel('internal representation')
+      .initialValue('')
+      .targetEvent(ev)
+      .required(true)
+      .ok('Load internal representation')
+      .cancel('Cancel');
+
+    $mdDialog.show(loaderdialog).then(function(result) {
+      var a = angular.fromJson(result);
+        if(a == undefined)
+        {
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('Error while loading from JSON')
+        .hideDelay(2000)
+        );
+        }else{
+        pc.plasmidtitle = a[0];
+        pc.plasmidsubtitle = a[1];
+        pc.markers = a[2];
+        $mdToast.show(
+        $mdToast.simple()
+        .textContent('Loaded from JSON internal represenation')
+        .hideDelay(2000)
+        );
+        }
+    }, function() {
+        $mdToast.simple()
+        .textContent('Loading cancelled')
+        .hideDelay(2000);
+    });
+    
+        
+    }
+    
+
     
     pc.saveLocal =  function () {
         localStorage.setItem("plasmidLocalStorage",angular.toJson([pc.plasmidtitle,pc.plasmidsubtitle,pc.markers]));
