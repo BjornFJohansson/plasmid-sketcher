@@ -1,6 +1,8 @@
 Plasmid sketcher
 ==============
 
+Demo: http://gops-igem.s3-website.eu-central-1.amazonaws.com/
+
 Plasmid visual map editor based on AngularPlasmid 
 
 A tool to interactively create illustrative plasmid, with no connection to actual sequences. Useful to show possible plasmids layout.
@@ -8,6 +10,7 @@ A tool to interactively create illustrative plasmid, with no connection to actua
 Can be statically hosted : all that is needed is to serve the files in the same directory.
 
 Give it a try ! Git clone it, then open plasmid_sketcher.html
+
 
 
 Licence
