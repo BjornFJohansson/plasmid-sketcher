@@ -1,7 +1,7 @@
 Plasmid sketcher
 ==============
 
-Demo: http://gops-igem.s3-website.eu-central-1.amazonaws.com/
+Demo: http://misc.br.iand.fr/plasmidsketcher/
 
 Plasmid visual map editor based on AngularPlasmid 
 
